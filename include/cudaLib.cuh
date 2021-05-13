@@ -129,16 +129,8 @@
 	extern int sortPixels_gpu (uint8_t * array, dim3 arrayDim);
 
 	/**
-	 * @brief CPU entrypoint for GPU based pool operation
-	 *			- allocate required memory on host and device
-	 *			- execute gpu kernel to pool
-	 *			- verify pooling - report # errors
-	 * 
-	 * @param inShape 	dimensions of input tensor
-	 * @param poolArgs 	PoolLayerArgs	parameters of pool operation
-	 * @return int 		number of errors in pooled output
 	 */
-	extern int runGpuPool (TensorShape inShape, PoolLayerArgs poolArgs);
+	extern int runGpuPool(float * inCpuMatrix, TensorShape inShape, float * outCpuMatrix, TensorShape oShape, PoolLayerArgs poolArgs);
 
 	/**
 	 * @brief GPU kernel to perform 2D Pool operation
@@ -150,7 +142,7 @@
 	 * @param args 		PoolLayerArgs	parameters of pool operation
 	 * @return int 
 	 */
-	extern int poolLayer_gpu (float * input, TensorShape inShape,
+	extern __global__ void poolLayer_gpu (float * input, TensorShape inShape,
 		float * output, TensorShape outShape, PoolLayerArgs args);
 
 	/**
@@ -159,8 +151,7 @@
 	 * @param argc 
 	 * @param argv 
 	 * @return int 
-	 */
-	extern int runGpuConv (int argc, char ** argv);
+	 */	 extern int runGpuConv(float * inCPU, TensorShape iShape, float * filterCPU, TensorShape fShape, float * biasCPU, float * outCPU, TensorShape outShape ,  ConvLayerArgs convArgs);
 
 	/**
 	 * @brief 
@@ -189,20 +180,26 @@
 	 * @param batchSize uint32_t		
 	 * @return int 
 	 */
-	extern int convLayer_gpu ( float * input, TensorShape iShape, 
+	 extern __global__ void convLayer_gpu ( float * input, TensorShape iShape, 
 		float * filter, TensorShape fShape, 
 		float * bias, float * output, TensorShape & oShape, 
 		ConvLayerArgs & args, uint32_t batchSize);
 
-	extern int runGpuGemm (int argc, char ** argv);
-
-	extern int gemmLayer_gpu (float * a, TensorShape aShape, 
+	extern __global__ void gemmLayer_gpu (float * a, TensorShape aShape, 
 		float * b, TensorShape bShape,
 		float * c, TensorShape & cShape,
 		GemmLayerArgs & args, uint32_t batchSize);
 
-	extern int runGpuGemm (int argc, char ** argv);
+	extern	int runGpuGemm (float * a, TensorShape aShape, 
+		float * b, TensorShape bShape,
+		float * c, TensorShape cShape,
+		GemmLayerArgs args) ;
 
 	extern int evaluateGpuGemm ();
+
+	extern void Activation(float * output, TensorShape oShape);
+
+	extern int AlexNet (int batchSize);
+
 
 #endif

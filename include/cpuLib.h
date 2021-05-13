@@ -125,10 +125,28 @@
 	extern int makeTensor (float ** t, TensorShape & shape);
 	extern int makeVector (float ** v, uint64_t size);
 
+	// MaxPool, 3x3 with stride 2.
+	const PoolLayerArgs AlexNet_PoolArgs       = {PoolOp::MaxPool, 3, 3, 2, 2};
 
 	const TensorShape AlexL1_InShape 		= {1, 3, 227, 227};
 	const TensorShape AlexL1_FilterShape	= {96, 3, 11, 11};
-	const ConvLayerArgs AlexL1_ConvArgs 	= {0, 0, 4, 4, false};
+	const ConvLayerArgs AlexL1_ConvArgs 	= {0, 0, 4, 4, true};
+
+	const TensorShape AlexL2_InShape 		= {1, 96, 27, 27};
+	const TensorShape AlexL2_FilterShape	= {256, 96, 5, 5};
+	const ConvLayerArgs AlexL2_ConvArgs 	= {2, 2, 1, 1, true};
+
+	const TensorShape AlexL3_InShape 		= {1, 256, 27, 27};
+	const TensorShape AlexL3_FilterShape	= {384, 256, 3, 3};
+	const ConvLayerArgs AlexL3_ConvArgs 	= {1, 1, 1, 1, true};
+
+	const TensorShape AlexL4_InShape 		= {1, 384, 13, 13};
+	const TensorShape AlexL4_FilterShape	= {384, 384, 3, 3};
+	const ConvLayerArgs AlexL4_ConvArgs 	= {1, 1, 1, 1, true};
+
+	const TensorShape AlexL5_InShape 		= {1, 384, 13, 13};
+	const TensorShape AlexL5_FilterShape	= {256, 384, 3, 3};
+	const ConvLayerArgs AlexL5_ConvArgs 	= {1, 1, 1, 1, true};
 
 	extern int runCpuConv (int argc, char ** argv);
 
